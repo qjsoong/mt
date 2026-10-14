@@ -1,0 +1,53 @@
+# Main training configuration: a ~40M parameter German<->English model.
+#
+# With max_tokens=16384 and this corpus size a full pass over the data is
+# roughly 2.5 epochs; tune max_steps after reading docs/training.md.
+model:
+  vocab_size: 32000
+  d_model: 512
+  n_heads: 8
+  d_ff: 1408
+  n_encoder_layers: 6
+  n_decoder_layers: 6
+  dropout: 0.1
+  attention_dropout: 0.1
+  activation: swiglu
+  norm: rmsnorm
+  positional: sinusoidal
+  max_positions: 1024
+  tie_embeddings: true
+
+data:
+  data_dir: data/processed
+  tokenizer_path: artifacts/tokenizer/tokenizer.model
+  max_tokens: 16384
+  max_batch_size: 256
+  max_source_length: 128
+  max_target_length: 128
+  direction: both
+  shuffle: true
+  sort_within_chunk: true
+  chunk_size: 10000
+
+max_steps: 40000
+max_epochs: 100
+schedule: inverse_sqrt
+warmup_steps: 4000
+lr_scale: 1.0
+weight_decay: 0.01
+grad_clip: 1.0
+label_smoothing: 0.1
+grad_accum_steps: 1
+
+eval_every_steps: 2000
+eval_max_batches: 64
+log_every_steps: 50
+save_every_steps: 2000
+keep_step_checkpoints: 2
+patience: 0
+
+out_dir: artifacts/run
+seed: 42
+device: auto
+amp_dtype: bfloat16
+decode_max_length: 200

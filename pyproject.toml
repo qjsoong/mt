@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mt"
+version = "0.1.0"
+description = "A small, from-scratch neural machine translation model"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "mt contributors" }]
+requires-python = ">=3.10"
+keywords = ["machine-translation", "sequence-to-sequence", "transformer"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: Apache Software License",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+  "torch>=2.4",
+  "numpy>=1.26",
+  "sentencepiece>=0.2.0",
+  "PyYAML>=6.0",
+  "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+data = ["datasets>=2.19", "pyarrow>=15.0"]
+eval = ["sacrebleu>=2.4", "transformers>=4.40"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+mt-train = "mt.train:main"
+mt-translate = "mt.generate:main"
+mt-eval = "mt.evaluate:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mt"]
+
+[tool.ruff]
+line-length = 80
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,24 @@
+# Smoke-test configuration: a tiny model trained for a handful of steps on
+# whatever processed corpus is available. Useful to verify the pipeline.
+model:
+  vocab_size: 32000
+  d_model: 128
+  n_heads: 4
+  d_ff: 256
+  n_encoder_layers: 2
+  n_decoder_layers: 2
+  dropout: 0.1
+  attention_dropout: 0.1
+
+data:
+  data_dir: data/processed
+  tokenizer_path: artifacts/tokenizer/tokenizer.model
+  max_tokens: 2048
+
+max_steps: 20
+warmup_steps: 10
+eval_every_steps: 10
+eval_max_batches: 4
+log_every_steps: 1
+save_every_steps: 10
+out_dir: artifacts/smoke

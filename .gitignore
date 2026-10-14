@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Data (downloaded / derived from public corpora)
+data/
+*.jsonl
+*.parquet
+
+# Model artifacts (checkpoints, tokenizers, logs)
+artifacts/
+runs/
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+*.bin
+*.model
+*.log
+log.jsonl
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
