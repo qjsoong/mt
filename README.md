@@ -31,7 +31,7 @@ settings, inference speed and how to read the comparison.
 ## Install
 
 ```bash
-git clone https://github.com/<user>/mt.git
+git clone https://github.com/qjsoong/mt.git
 cd mt
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[data,eval]"      # installs PyTorch, sentencepiece, ...
