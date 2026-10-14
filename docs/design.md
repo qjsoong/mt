@@ -28,7 +28,7 @@ document records the main design decisions and their rationale.
 | Positions        | fixed sinusoidal (enc + dec self-attention)        |
 | Embeddings       | shared source/target vocabulary, tied with output  |
 | Vocabulary       | 32k SentencePiece unigram, byte fallback           |
-| Parameters       | ≈ 55 M (weights tied, counted once)                |
+| Parameters       | ≈ 61 M (weights tied, counted once)                |
 
 Notes:
 
@@ -48,14 +48,17 @@ Notes:
 
 ```
 embedding/output (32 000 × 512, tied)          16.38 M
-12 layers × (4 · 512² + 3 · 512 · 1408)        38.54 M
+6 encoder layers × (4 · 512² + 3 · 512 · 1408)  19.27 M
+6 decoder layers × (2 · 4 · 512² + 3 · 512 · 1408)  25.56 M
 norms (30 × 512)                                ~0.02 M
-total                                          ~54.9 M
+total                                          ~61.2 M
 ```
 
-For comparison, `Helsinki-NLP/opus-mt-de-en` has ~77 M parameters with a
-58k vocabulary; the two models are the same order of magnitude, which makes
-the benchmark comparison meaningful (see `docs/benchmarks.md`).
+Each decoder layer has both self-attention and cross-attention, so decoder
+layers are larger than encoder layers. For comparison,
+`Helsinki-NLP/opus-mt-de-en` has ~74 M parameters with a 58k vocabulary;
+the two models are the same order of magnitude, which makes the benchmark
+comparison meaningful (see `docs/benchmarks.md`).
 
 ## Tokenization
 

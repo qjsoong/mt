@@ -50,7 +50,7 @@ Filled in from `data/processed/meta.json` of the reference run:
 
 | Item | Value |
 | ---- | ----- |
-| Parameters | ≈ 55 M |
+| Parameters | ≈ 61 M |
 | Batch size | 16 384 tokens per optimizer step (`max_tokens`), gradient accumulation 1 |
 | Steps | TBD |
 | Tokens seen | TBD |

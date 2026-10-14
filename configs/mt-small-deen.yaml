@@ -1,4 +1,4 @@
-# Main training configuration: a ~40M parameter German<->English model.
+# Main training configuration: a 61M parameter German<->English model.
 #
 # With max_tokens=16384 and this corpus size a full pass over the data is
 # roughly 2.5 epochs; tune max_steps after reading docs/training.md.

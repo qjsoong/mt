@@ -379,8 +379,8 @@ def train(
                 pending_gradients = 0
                 global_step += 1
 
-                running_loss += float(loss)
-                last_loss = float(loss)
+                running_loss += float(loss.detach())
+                last_loss = float(loss.detach())
                 meter.update(num_tokens)
 
                 if global_step % config.log_every_steps == 0:
@@ -389,7 +389,7 @@ def train(
                         "event": "train",
                         "step": global_step,
                         "epoch": epoch,
-                        "loss": float(loss),
+                        "loss": float(loss.detach()),
                         "avg_loss": average_loss,
                         "lr": lr,
                         "grad_norm": gradient_norm,
@@ -399,7 +399,7 @@ def train(
                     logger.log(record)
                     print(
                         f"step {global_step:>7} | epoch {epoch:>3} | "
-                        f"loss {float(loss):.4f} | lr {lr:.2e} | "
+                        f"loss {float(loss.detach()):.4f} | lr {lr:.2e} | "
                         f"grad {gradient_norm:.2f} | "
                         f"{format_number(meter.rate())} tok/s"
                     )

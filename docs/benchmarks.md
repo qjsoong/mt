@@ -25,7 +25,7 @@ produced by the scripts in this repository and the raw JSON is stored in
 
 | Model | Parameters | Training data (public description) |
 | ----- | ---------- | ---------------------------------- |
-| `mt-small-deen` (ours) | ≈ 55 M | WMT14 de-en train + OPUS-100 en-de train |
+| `mt-small-deen` (ours) | ≈ 61 M | WMT14 de-en train + OPUS-100 en-de train |
 | `Helsinki-NLP/opus-mt-de-en` | 77 M | OPUS corpora |
 | `Helsinki-NLP/opus-mt-en-de` | 77 M | OPUS corpora |
 

@@ -6,7 +6,7 @@
 - **Version:** v0.1.0
 - **Type:** encoder–decoder Transformer, trained from scratch
 - **Languages:** German ↔ English, one bilingual checkpoint
-- **Parameters:** ≈ 55 M
+- **Parameters:** ≈ 61 M
 - **Architecture:** 6 encoder + 6 decoder layers, `d_model = 512`, 8 heads,
   SwiGLU feed-forward (hidden 1408), RMSNorm, sinusoidal positions, shared
   SentencePiece vocabulary (32k, unigram), tied input/output embeddings

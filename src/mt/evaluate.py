@@ -26,9 +26,8 @@ def load_test_set(
     """
     from sacrebleu.utils import get_reference_files, get_source_file
 
-    language_pair = direction.replace("-", "-")
-    source_file = get_source_file(test_set, language_pair)
-    reference_files = get_reference_files(test_set, language_pair)
+    source_file = get_source_file(test_set, direction)
+    reference_files = get_reference_files(test_set, direction)
     with open(source_file, encoding="utf-8") as handle:
         sources = [line.rstrip("\n") for line in handle]
     references: list[list[str]] = []
