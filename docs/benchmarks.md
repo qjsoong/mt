@@ -57,6 +57,59 @@ set; the `mt` numbers include tokenization and detokenization.
 Raw JSON: `results/mt-small.json`, `results/baseline-opus-mt.de-en.json`,
 `results/baseline-opus-mt.en-de.json`.
 
+## Qualitative examples
+
+Contiguous sentences from newstest2019 (indices 1000–1002), not selected
+for quality. They illustrate typical behaviour: on long news sentences the
+output is close to the reference, while short idiomatic fragments are where
+`mt-small` makes clear errors (for example copying the source or producing
+a literal phrase).
+
+**de→en, sentence 1000**
+
+- Source: *Unsere Gartenstadt gibt sich einen bunten Anstrich - hier geht was.*
+- Reference: *Our garden city is getting a colorful coat of paint - things are really happening.*
+- mt-small: *Our garden town has a colourfulstrich - here is something.*
+- opus-mt: *Our garden town gives itself a colorful painting - here something goes.*
+
+**de→en, sentence 1001**
+
+- Source: *Dann wurde der Maikranz von Georg Knorr und Gerd Klück mit Hilfe der Feuerwehr abgenommen und ins Winterquartier gebracht.*
+- Reference: *Next, the wreath was taken down from the maypole by Georg Knorr and Gerd Klück with the help of the fire department and taken into winter storage.*
+- mt-small: *Then the Maikranz was removed by Georg Knorr and Gerd Klück with the help of the fire brigade and brought to the winter district.*
+- opus-mt: *Then the Maikranz was taken away by Georg Knorr and Gerd Klück with the help of the fire brigade and taken to Winterquartier.*
+
+**de→en, sentence 1002**
+
+- Source: *An vielen Ständen wurde für das leibliche Wohl gearbeitet.*
+- Reference: *Many stands worked to provide sustenance.*
+- mt-small: *Many booths have worked for the good.*
+- opus-mt: *Many stalls were worked for the physical well-being.*
+
+**en→de, sentence 1000**
+
+- Source: *The Kremlin argues that Washington's fervent opposition to the project is simply driven by economic reasons and is an example of unfair competition.*
+- Reference: *Der Kreml argumentiert, dass Washingtons Widerstand gegen das Projekt einfach aus wirtschaftlichen Gründen getrieben und ein Beispiel für unlauteren Wettbewerb sei.*
+- mt-small: *Der Kreml argumentiert, dass Washingtons eifriger Widerstand gegen das Projekt einfach aus wirtschaftlichen Gründen getrieben ist und ein Beispiel für unlauteren Wettbewerb ist.*
+- opus-mt: *Der Kreml argumentiert, dass Washingtons glühender Widerstand gegen das Projekt einfach aus wirtschaftlichen Gründen getrieben wird und ein Beispiel für unlauteren Wettbewerb ist.*
+
+**en→de, sentence 1001**
+
+- Source: *"I believe we share the view that energy cannot be a tool to exercise pressure and that consumers should be able to choose the suppliers," Russian Energy Minister Aleksandr Novak said following a meeting with US Energy Secretary Rick Perry in Moscow in September.*
+- Reference: *„Ich glaube, wir teilen die Ansicht, dass Energie kein Instrument sein kann, um Druck auszuüben, und dass die Verbraucher in der Lage sein sollten, die Lieferanten zu wählen“, sagte der russische Energieminister Aleksandr Novak nach einem Treffen mit US-Energieminister Rick Perry im September in Moskau.*
+- mt-small: *"Ich glaube, wir teilen die Ansicht, dass Energie kein Instrument zur Ausübung des Drucks sein kann und dass die Verbraucher in der Lage sein sollten, die Lieferanten zu wählen", sagte der russische Energieminister Aleksandr Novak nach einem Treffen mit US-Energieminister Rick Perry im Moskau im September.*
+- opus-mt: *"Ich glaube, wir teilen die Ansicht, dass Energie kein Druckmittel sein kann und dass die Verbraucher in der Lage sein sollten, die Lieferanten zu wählen", sagte der russische Energieminister Aleksandr Novak nach einem Treffen mit US-Energieminister Rick Perry im September in Moskau.*
+
+**en→de, sentence 1002**
+
+- Source: *The US stance has drawn backlash from Germany, which has reaffirmed its commitment to the project.*
+- Reference: *Die Haltung der USA hat Gegenreaktion aus Deutschland hervorgerufen, das sein Engagement für das Projekt bekräftigt hat*
+- mt-small: *Die Haltung der USA hat sich aus Deutschland zurückgekürzt, was ihr Engagement für das Projekt bekräftigt hat.*
+- opus-mt: *Die Haltung der USA hat Rückschläge aus Deutschland gezogen, das sein Engagement für das Projekt bekräftigt hat.*
+
+Hypotheses for the full test sets can be regenerated with
+`mt-eval --hypotheses-dir` and `scripts/run_baseline.py --hypotheses-dir`.
+
 ## How to read these numbers
 
 - `mt-small-deen` reaches **~77 % of the opus-mt BLEU score** on every test
