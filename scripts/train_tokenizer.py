@@ -21,6 +21,14 @@ from mt.tokenizer import train_tokenizer  # noqa: E402
 def extract_texts(raw_dir: Path, data_dir: Path) -> tuple[Path, Path]:
     german_path = data_dir / "tokenizer_corpus.de.txt"
     english_path = data_dir / "tokenizer_corpus.en.txt"
+    if (
+        german_path.exists()
+        and english_path.exists()
+        and german_path.stat().st_size > 0
+        and english_path.stat().st_size > 0
+    ):
+        print(f"reusing existing text files in {data_dir}")
+        return german_path, english_path
     files = sorted(raw_dir.glob("*.jsonl"))
     if not files:
         raise SystemExit(f"no .jsonl files found in {raw_dir}")
@@ -52,7 +60,7 @@ def main() -> int:
     parser.add_argument(
         "--max-sentences",
         type=int,
-        default=8000000,
+        default=2500000,
         help="sample this many sentences from the combined text files",
     )
     parser.add_argument("--num-threads", type=int, default=16)

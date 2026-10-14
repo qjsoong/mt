@@ -31,10 +31,12 @@ def iter_wmt14() -> Iterator[tuple[str, str]]:
 def iter_opus100() -> Iterator[tuple[str, str]]:
     from datasets import load_dataset
 
-    dataset = load_dataset("Helsinki-NLP/opus-100", "en-de", split="train")
+    dataset = load_dataset("Helsinki-NLP/opus-100", "de-en", split="train")
     for example in dataset:
         translation = example["translation"]
-        yield translation["de"], translation["en"]
+        german = translation.get("de") or translation.get("en")
+        english = translation.get("en") or translation.get("de")
+        yield german, english
 
 
 SOURCES: dict[str, Iterable] = {

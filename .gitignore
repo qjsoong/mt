@@ -19,14 +19,17 @@ data/
 *.parquet
 
 # Model artifacts (checkpoints, tokenizers, logs)
-artifacts/
+artifacts/*
+!artifacts/tokenizer/
+artifacts/tokenizer/*
+!artifacts/tokenizer/tokenizer.model
+!artifacts/tokenizer/meta.json
 runs/
 *.pt
 *.pth
 *.safetensors
 *.ckpt
 *.bin
-*.model
 *.log
 log.jsonl
 

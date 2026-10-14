@@ -93,6 +93,7 @@ class TrainConfig:
     grad_clip: float = 1.0
     label_smoothing: float = 0.1
     grad_accum_steps: int = 1
+    gradient_checkpointing: bool = False
 
     # Validation / checkpointing
     eval_every_steps: int = 2000

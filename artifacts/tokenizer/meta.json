@@ -1,0 +1,16 @@
+{
+  "model_path": "artifacts/tokenizer/tokenizer.model",
+  "vocab_size": 32000,
+  "pad_id": 0,
+  "unk_id": 1,
+  "bos_id": 2,
+  "eos_id": 3,
+  "lang_token_ids": {
+    "de": 4,
+    "en": 5
+  },
+  "lang_tokens": {
+    "de": "<2de>",
+    "en": "<2en>"
+  }
+}

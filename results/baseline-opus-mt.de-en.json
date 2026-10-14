@@ -1,0 +1,27 @@
+{
+  "model": "Helsinki-NLP/opus-mt-de-en",
+  "parameters": 74410496,
+  "beam_size": 5,
+  "results": [
+    {
+      "test_set": "wmt14",
+      "direction": "de-en",
+      "num_sentences": 3003,
+      "beam_size": 5,
+      "bleu": 33.99363870544146,
+      "chrf": 59.98028048750438,
+      "seconds": 184.14376878738403,
+      "sentences_per_second": 16.30790995413655
+    },
+    {
+      "test_set": "wmt19",
+      "direction": "de-en",
+      "num_sentences": 2000,
+      "beam_size": 5,
+      "bleu": 39.44619161582344,
+      "chrf": 63.88542769099035,
+      "seconds": 129.8168706893921,
+      "sentences_per_second": 15.406318064662985
+    }
+  ]
+}

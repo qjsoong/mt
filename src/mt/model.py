@@ -316,6 +316,7 @@ class Encoder(nn.Module):
         )
         self.norm = make_norm(cfg.norm, cfg.d_model)
         self.dropout = nn.Dropout(cfg.dropout)
+        self.gradient_checkpointing = False
 
     def forward(
         self,
@@ -328,7 +329,12 @@ class Encoder(nn.Module):
         x = x + positions[: inputs.size(1)].unsqueeze(0).to(x.dtype)
         x = self.dropout(x)
         for layer in self.layers:
-            x = layer(x, key_padding_mask=key_padding_mask)
+            if self.gradient_checkpointing and self.training:
+                x = torch.utils.checkpoint.checkpoint(
+                    layer, x, key_padding_mask, use_reentrant=False
+                )
+            else:
+                x = layer(x, key_padding_mask=key_padding_mask)
         return self.norm(x)
 
 
@@ -341,6 +347,7 @@ class Decoder(nn.Module):
         )
         self.norm = make_norm(cfg.norm, cfg.d_model)
         self.dropout = nn.Dropout(cfg.dropout)
+        self.gradient_checkpointing = False
 
     def forward(
         self,
@@ -358,12 +365,24 @@ class Decoder(nn.Module):
 
         mask = _self_attention_mask(inputs, target_padding_mask)
         for layer in self.layers:
-            x, _ = layer(
-                x,
-                memory,
-                self_attn_mask=mask,
-                memory_padding_mask=memory_padding_mask,
-            )
+            if self.gradient_checkpointing and self.training:
+                x, _ = torch.utils.checkpoint.checkpoint(
+                    layer,
+                    x,
+                    memory,
+                    mask,
+                    memory_padding_mask,
+                    None,
+                    None,
+                    use_reentrant=False,
+                )
+            else:
+                x, _ = layer(
+                    x,
+                    memory,
+                    self_attn_mask=mask,
+                    memory_padding_mask=memory_padding_mask,
+                )
         return self.norm(x)
 
 
@@ -419,6 +438,12 @@ class Transformer(nn.Module):
             return self.positions[offset : offset + length].to(device)
         index = torch.arange(offset, offset + length, device=device)
         return self.positional_embedding(index)
+
+    def set_gradient_checkpointing(self, enabled: bool = True) -> None:
+        """Trade compute for memory by recomputing layer activations."""
+        self.gradient_checkpointing = enabled
+        self.encoder.gradient_checkpointing = enabled
+        self.decoder.gradient_checkpointing = enabled
 
     def num_parameters(self) -> int:
         """Count model parameters; tied weights are counted once."""

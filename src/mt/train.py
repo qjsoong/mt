@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import math
+import os
 import time
 from collections.abc import Sequence
 from pathlib import Path
@@ -235,6 +236,8 @@ def save_checkpoint(
 def train(
     config: TrainConfig, tokenizer_path: str, resume: str | None = None
 ) -> Path:
+    # Reduces allocator fragmentation on GPUs with little headroom.
+    os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
     set_seed(config.seed)
     device = resolve_device(config.device)
     out_dir = Path(config.out_dir)
@@ -254,6 +257,7 @@ def train(
     valid_corpus = TokenizedCorpus(config.data.data_dir, "valid")
 
     model = Transformer(config.model).to(device)
+    model.set_gradient_checkpointing(config.gradient_checkpointing)
     optimizer = make_optimizer(model, config)
     amp_dtype = AMP_DTYPES[config.amp_dtype]
     use_amp = amp_dtype is not None and device.type == "cuda"
