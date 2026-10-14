@@ -38,24 +38,34 @@
 | Item                | Value |
 | ------------------- | ----- |
 | Tokenizer           | 32k SentencePiece unigram, byte fallback |
-| Train pairs         | see `docs/training.md` |
+| Train pairs         | 5,160,716 (WMT14 de-en + OPUS-100 en-de) |
 | Directions          | de→en and en→de, one target-language token |
-| Max tokens / batch  | 16384 |
+| Max tokens / batch  | 12,288 |
 | Optimizer           | AdamW, β=(0.9, 0.98), ε=1e-9 |
 | LR schedule         | inverse square root, 4000 warm-up steps |
 | Label smoothing     | 0.1 |
 | Dropout             | 0.1 |
 | Precision           | bfloat16 autocast, FP32 master weights |
-| Steps / tokens seen | see `docs/training.md` |
+| Steps / tokens seen | 75,000 steps / ≈ 922 M tokens (≈ 3.3 passes) |
+| Wall-clock          | 8.0 h on one RTX 4060 Laptop (8 GB) |
 
 Model selection uses a held-out split of the training corpus, never the WMT
 test sets.
 
 ## Evaluation
 
-Evaluation uses `sacrebleu` test sets with the same decoding settings for
-this model and the baselines. Results are in `docs/benchmarks.md` and the
-raw JSON files in `results/`.
+Evaluation uses `sacrebleu` test sets with the same decoding settings
+(beam 5, length penalty 0.6) for this model and the baselines.
+
+| Test set | Direction | BLEU | chrF2 |
+| -------- | --------- | ---- | ----- |
+| wmt14    | de→en     | 26.31 | 53.74 |
+| wmt14    | en→de     | 21.20 | 52.30 |
+| wmt19    | de→en     | 30.69 | 56.11 |
+| wmt19    | en→de     | 30.83 | 57.06 |
+
+For comparison with public models, see `docs/benchmarks.md`. Raw JSON files
+are in `results/`.
 
 ## Limitations
 
@@ -69,6 +79,7 @@ raw JSON files in `results/`.
 
 ## Environmental impact
 
-The reference run was trained on a single 8 GB laptop GPU. Estimated energy
-consumption and carbon footprint are reported in `docs/training.md` based on
-measured wall-clock time and the nominal power draw of the device.
+The reference run was trained on a single 8 GB laptop GPU for 8.0 hours.
+Using the nominal ~115 W board power of an RTX 4060 Laptop, that is roughly
+0.9 kWh of GPU energy (order-of-magnitude estimate; see
+`docs/training.md`).

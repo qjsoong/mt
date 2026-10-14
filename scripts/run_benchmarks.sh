@@ -16,6 +16,7 @@ echo "== mt checkpoint: ${CHECKPOINT}"
     --test-sets wmt14,wmt19 \
     --directions de-en,en-de \
     --beam-size 5 \
+    --name "mt-small-deen" \
     --output results/mt-small.json
 
 for direction in de-en en-de; do

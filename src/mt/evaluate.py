@@ -108,6 +108,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--max-sentences", type=int, default=None)
     parser.add_argument("--device", default="auto")
+    parser.add_argument(
+        "--name",
+        default=None,
+        help="model name recorded in the output JSON (defaults to the path)",
+    )
     parser.add_argument("--output", default=None, help="JSON output path")
     parser.add_argument(
         "--hypotheses-dir",
@@ -145,7 +150,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
 
     payload = {
-        "model": arguments.model,
+        "model": arguments.name or arguments.model,
         "parameters": translator.model.num_parameters(),
         "beam_size": arguments.beam_size,
         "results": results,

@@ -12,16 +12,21 @@ to the repository.
 
 ## Results
 
-See [docs/benchmarks.md](docs/benchmarks.md) for the full comparison with
-public models of comparable size (`Helsinki-NLP/opus-mt-*`), including BLEU,
-chrF and throughput numbers on standard WMT test sets.
+Trained from scratch on public data with 8 GPU-hours on a single laptop
+RTX 4060 (8 GB). Full methodology and raw JSON in
+[docs/benchmarks.md](docs/benchmarks.md) and `results/`.
 
-| Test set | Direction | mt-small | opus-mt |
-| -------- | --------- | -------- | ------- |
-| wmt14    | de→en     | TBD      | TBD     |
-| wmt14    | en→de     | TBD      | TBD     |
-| wmt19    | de→en     | TBD      | TBD     |
-| wmt19    | en→de     | TBD      | TBD     |
+| Test set | Direction | mt-small (61 M) | opus-mt (74 M) |
+| -------- | --------- | --------------- | -------------- |
+| wmt14    | de→en     | 26.31 BLEU / 53.74 chrF | 33.99 / 59.98 |
+| wmt14    | en→de     | 21.20 BLEU / 52.30 chrF | 27.58 / 58.39 |
+| wmt19    | de→en     | 30.69 BLEU / 56.11 chrF | 39.45 / 63.89 |
+| wmt19    | en→de     | 30.83 BLEU / 57.06 chrF | 40.51 / 65.17 |
+
+`mt-small` reaches ~77 % of the opus-mt BLEU with 82 % of the parameters —
+with no pre-trained weights and a training budget measured in hours on a
+consumer GPU. See [docs/benchmarks.md](docs/benchmarks.md) for decoding
+settings, inference speed and how to read the comparison.
 
 ## Install
 
@@ -40,7 +45,7 @@ pip install -e ".[data,eval]"      # installs PyTorch, sentencepiece, ...
 scripts/download_model.sh
 
 mt-translate \
-    --model artifacts/release/model.pt \
+    --model artifacts/release/mt-small-deen.pt \
     --tokenizer artifacts/release/tokenizer.model \
     --direction de-en \
     --input examples/de.txt
@@ -52,7 +57,8 @@ Python API:
 from mt.generate import Translator
 
 translator = Translator.from_checkpoint(
-    "artifacts/release/model.pt", "artifacts/release/tokenizer.model"
+    "artifacts/release/mt-small-deen.pt",
+    "artifacts/release/tokenizer.model",
 )
 print(translator.translate(["Der Hund schläft."], direction="de-en"))
 ```
@@ -72,7 +78,7 @@ python scripts/train_tokenizer.py --vocab-size 32000
 # 4. Tokenized, memory-mapped training data -> data/processed/
 python scripts/prepare_data.py
 
-# 5. Train
+# 5. Train (8 h on the reference RTX 4060 Laptop)
 mt-train --config configs/mt-small-deen.yaml
 
 # 6. Evaluate
@@ -88,7 +94,8 @@ architecture and batching design.
 ```
 configs/        training configurations
 docs/           design, training, data and benchmark documentation
-scripts/        data download, tokenizer training, baselines
+examples/       sample input sentences for the CLI
+scripts/        data download, tokenizer training, baselines, tooling
 src/mt/         the Python package (model, data, train, generate, evaluate)
 tests/          unit tests for model, data and decoding
 results/        evaluation results for the released checkpoint and baselines

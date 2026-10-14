@@ -1,0 +1,47 @@
+{
+  "model": "mt-small-deen",
+  "parameters": 61227008,
+  "beam_size": 5,
+  "results": [
+    {
+      "test_set": "wmt14",
+      "direction": "de-en",
+      "num_sentences": 3003,
+      "beam_size": 5,
+      "bleu": 26.31449890025868,
+      "chrf": 53.73529052241401,
+      "seconds": 85.4231128692627,
+      "sentences_per_second": 35.15442014617278
+    },
+    {
+      "test_set": "wmt14",
+      "direction": "en-de",
+      "num_sentences": 2737,
+      "beam_size": 5,
+      "bleu": 21.20217196394783,
+      "chrf": 52.30419315611955,
+      "seconds": 74.82365083694458,
+      "sentences_per_second": 36.57934315400434
+    },
+    {
+      "test_set": "wmt19",
+      "direction": "de-en",
+      "num_sentences": 2000,
+      "beam_size": 5,
+      "bleu": 30.688764795110917,
+      "chrf": 56.11123535471316,
+      "seconds": 59.61869192123413,
+      "sentences_per_second": 33.54652602311908
+    },
+    {
+      "test_set": "wmt19",
+      "direction": "en-de",
+      "num_sentences": 1997,
+      "beam_size": 5,
+      "bleu": 30.830464048308635,
+      "chrf": 57.057484121352076,
+      "seconds": 60.568225145339966,
+      "sentences_per_second": 32.971083356132425
+    }
+  ]
+}
