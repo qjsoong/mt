@@ -1,5 +1,7 @@
 # mt — a small machine translation model, built from scratch
 
+[![CI](https://github.com/qjsoong/mt/actions/workflows/ci.yml/badge.svg)](https://github.com/qjsoong/mt/actions/workflows/ci.yml)
+
 `mt` is a compact German↔English neural machine translation model designed,
 trained and evaluated in the open. The model architecture, tokenizer, data
 pipeline and beam-search decoder are implemented from scratch with PyTorch —
